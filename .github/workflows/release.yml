@@ -9,10 +9,22 @@ env:
   GITHUB_TOKEN: ${{ github.token }}
   
 jobs:
-  build:
+  build:    
+    name: Build
     runs-on: windows-latest
-
-    steps:
+    steps:    
+    - id: get_version
+      uses: mirerosystem/get-version-action@v1.3
+    - name: Get Release
+      id: get_release
+      uses: bruceadams/get-release@v1.2.0
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: beats
+        # Directory containing files to upload
+        path: ../../.././release            
     - name: Upload Release Asset - winlogbeat-oss - x86
       uses: actions/upload-release-asset@v1.0.2
       env:
