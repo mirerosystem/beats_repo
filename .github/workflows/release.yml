@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  release:
+    types: [created]    
+    
+env:
+  BEAT_VERSION: 7.7.2-SNAPSHOT
+  GITHUB_TOKEN: ${{ github.token }}
+  
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Upload Release Asset - winlogbeat-oss - x86
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FILE_NAME: winlogbeat-oss-${{ secrets.GITHUB_TOKEN }}-windows-x86
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
+        asset_path: ./winlogbeat-oss/${{ secrets.GITHUB_TOKEN }}/$FILE_NAME.zip
+        asset_name: $FILE_NAME.zip
+        asset_content_type: application/octet-stream   
